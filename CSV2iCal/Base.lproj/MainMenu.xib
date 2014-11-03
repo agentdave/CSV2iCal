@@ -13,6 +13,7 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="CSV2iCal" customModuleProvider="target">
             <connections>
+                <outlet property="calendarSelectionController" destination="VAM-Pr-bbl" id="6Vv-J7-Jm5"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
@@ -675,9 +676,47 @@
                 <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tmj-RH-1O6">
-                        <rect key="frame" x="34" y="273" width="104" height="32"/>
-                        <buttonCell key="cell" type="push" title="Add Event" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="S41-f2-VVx">
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rj3-2Y-hyk">
+                        <rect key="frame" x="14" y="306" width="102" height="32"/>
+                        <buttonCell key="cell" type="push" title="Load CSV" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="LFM-d6-Hhr">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="loadCSV:" target="Voe-Tx-rLC" id="Oz2-2p-y5j"/>
+                        </connections>
+                    </button>
+                    <popUpButton verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fc8-Dd-yMi">
+                        <rect key="frame" x="148" y="55" width="100" height="26"/>
+                        <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="BLl-J0-wsD" id="x5I-fc-Wyn">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="menu"/>
+                            <menu key="menu" id="ozI-TD-HhW">
+                                <items>
+                                    <menuItem title="Item 1" state="on" id="BLl-J0-wsD"/>
+                                    <menuItem title="Item 2" id="Pbn-rS-Kfb"/>
+                                    <menuItem title="Item 3" id="EMB-NX-TwK"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <binding destination="VAM-Pr-bbl" name="contentObjects" keyPath="arrangedObjects" previousBinding="BlK-zx-9ka" id="3uM-Gc-9Lw"/>
+                            <binding destination="VAM-Pr-bbl" name="content" keyPath="arrangedObjects" id="BlK-zx-9ka"/>
+                            <binding destination="VAM-Pr-bbl" name="contentValues" keyPath="arrangedObjects.title" previousBinding="3uM-Gc-9Lw" id="BcX-1b-TyE"/>
+                            <binding destination="Voe-Tx-rLC" name="selectedObject" keyPath="self.calendar" previousBinding="BcX-1b-TyE" id="Wyj-NE-u1k"/>
+                        </connections>
+                    </popUpButton>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JFY-4j-LMQ">
+                        <rect key="frame" x="20" y="61" width="124" height="17"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Import to Calendar:" id="hod-AB-iOb">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tmj-RH-1O6">
+                        <rect key="frame" x="261" y="51" width="84" height="32"/>
+                        <buttonCell key="cell" type="push" title="Import!" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="S41-f2-VVx">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
@@ -685,8 +724,59 @@
                             <action selector="addEvent:" target="Voe-Tx-rLC" id="u4z-kc-MJs"/>
                         </connections>
                     </button>
+                    <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EsX-6J-yXJ">
+                        <rect key="frame" x="20" y="87" width="440" height="206"/>
+                        <clipView key="contentView" id="gBC-pM-Aub">
+                            <rect key="frame" x="1" y="1" width="223" height="133"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" smartInsertDelete="YES" id="k7d-xO-GDL">
+                                    <rect key="frame" x="0.0" y="0.0" width="223" height="133"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <size key="minSize" width="438" height="204"/>
+                                    <size key="maxSize" width="463" height="10000000"/>
+                                    <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <size key="minSize" width="438" height="204"/>
+                                    <size key="maxSize" width="463" height="10000000"/>
+                                    <connections>
+                                        <binding destination="Voe-Tx-rLC" name="attributedString" keyPath="self.csvContents" id="w26-Xh-ldb"/>
+                                    </connections>
+                                </textView>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </clipView>
+                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="Ddt-gN-dc4">
+                            <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="p4m-XC-qbT">
+                            <rect key="frame" x="224" y="1" width="15" height="133"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                    </scrollView>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="tmj-RH-1O6" firstAttribute="leading" secondItem="Fc8-Dd-yMi" secondAttribute="trailing" constant="22" id="2ua-kA-FZZ"/>
+                    <constraint firstItem="EsX-6J-yXJ" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" symbolic="YES" id="75p-Ov-W6M"/>
+                    <constraint firstItem="tmj-RH-1O6" firstAttribute="baseline" secondItem="JFY-4j-LMQ" secondAttribute="baseline" id="8Bp-QH-hC4"/>
+                    <constraint firstItem="tmj-RH-1O6" firstAttribute="top" secondItem="EsX-6J-yXJ" secondAttribute="bottom" constant="8" id="Dca-gN-dgl"/>
+                    <constraint firstAttribute="trailing" secondItem="EsX-6J-yXJ" secondAttribute="trailing" constant="20" symbolic="YES" id="Kjl-7U-dGA"/>
+                    <constraint firstItem="JFY-4j-LMQ" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="22" id="MBY-Zx-Ue1"/>
+                    <constraint firstItem="EsX-6J-yXJ" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="67" id="SFP-EJ-vIB"/>
+                    <constraint firstItem="Fc8-Dd-yMi" firstAttribute="leading" secondItem="JFY-4j-LMQ" secondAttribute="trailing" constant="8" symbolic="YES" id="dAb-Xe-VQG"/>
+                    <constraint firstAttribute="bottom" secondItem="EsX-6J-yXJ" secondAttribute="bottom" constant="87" id="e3D-cm-qo5"/>
+                    <constraint firstItem="Fc8-Dd-yMi" firstAttribute="top" secondItem="EsX-6J-yXJ" secondAttribute="bottom" constant="8" id="ere-XL-Xnj"/>
+                    <constraint firstItem="EsX-6J-yXJ" firstAttribute="top" secondItem="rj3-2Y-hyk" secondAttribute="bottom" constant="20" symbolic="YES" id="h7e-cR-Kfw"/>
+                    <constraint firstItem="EsX-6J-yXJ" firstAttribute="leading" secondItem="rj3-2Y-hyk" secondAttribute="leading" id="rYT-q9-6dR"/>
+                </constraints>
             </view>
         </window>
+        <arrayController id="VAM-Pr-bbl" userLabel="Calendar Selection Controller">
+            <connections>
+                <binding destination="Voe-Tx-rLC" name="contentArray" keyPath="self.calendars" id="Mkf-Kb-HtG"/>
+            </connections>
+        </arrayController>
+        <userDefaultsController representsSharedInstance="YES" id="O6x-QH-gKB"/>
     </objects>
 </document>
